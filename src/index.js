@@ -7,6 +7,7 @@ app.use(cors())
 
 const schema = gql`
   type Query {
+    me: User
     user(id: ID!): User
     users: [User!]
     books: [Book!]!
@@ -41,7 +42,7 @@ const users = {
   ldsjafjls: {
     id: 'ldsjafjls',
     username: 'vlassel',
-    email: 'spinell@gmail.com',
+    email: 'vlassel@gmail.com',
     password: 'lasseltassel'
   }
 }
@@ -69,16 +70,19 @@ const books = {
 
 const resolvers = {
   Query: {
+    me: (parent, args, ctx) => ctx.me,
     user: (parent, args) => users[args.id],
     users: () => Object.values(users),
     books: () => Object.values(books),
     book: (parent, args) => books[args.id]
-  }
+  },
+  User: { username: user => user.username.toLowerCase() }
 }
 
 const server = new ApolloServer({
   typeDefs: schema,
-  resolvers
+  resolvers,
+  context: { me: users['ldsjafjls']}
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
