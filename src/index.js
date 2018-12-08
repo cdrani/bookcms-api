@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express from 'express'
 import { ApolloServer, gql } from 'apollo-server-express'
+import shortid from 'shortid'
 
 const app = express()
 app.use(cors())
@@ -32,9 +33,33 @@ const schema = gql`
     pages: Int!
     user: User!
   }
+
+  type Mutation {
+    createBook(input: createBookInput!): Book
+    deleteBook(input: deleteBookInput!): Boolean!
+    updateBookTitle(input: UpdateBookTitleInput!): Book
+  }
+
+  input deleteBookInput {
+    id: ID!
+  }
+
+  input createBookInput {
+    title: String!
+    author: String!
+    currentChapter: Int!
+    chapters: Int!
+    currentPage: Int!
+    pages: Int!
+  }
+
+  input UpdateBookTitleInput {
+    id: ID!
+    newTitle: String!
+  }
 `
 
-const users = {
+let users = {
   sdjlafjsd: {
     id: 'sdjlafjsd',
     username: 'spinelli',
@@ -51,7 +76,7 @@ const users = {
   }
 }
 
-const books = {
+let books = {
   woeurweq: {
     id: 'woeurweq',
     userId: 'sdjlafjsd',
@@ -76,11 +101,50 @@ const books = {
 
 const resolvers = {
   Query: {
-    me: (parent, args, ctx) => ctx.me,
-    user: (parent, args) => users[args.id],
+    me: (_, args, { me }) => me,
+    user: (_, { id }) => users[id],
     users: () => Object.values(users),
     books: () => Object.values(books),
-    book: (parent, args) => books[args.id]
+    book: (_, { id }) => books[id]
+  },
+  Mutation: {
+    createBook: (
+      _,
+      {
+        input: { title, author, pages, chapters, currentPage, currentChapter }
+      },
+      { me }
+    ) => {
+      const id = shortid.generate()
+      const book = {
+        id,
+        title,
+        author,
+        pages,
+        currentPage,
+        chapters,
+        currentChapter,
+        userId: me.id
+      }
+
+      books[id] = book
+      users[me.id].bookIds.push(id)
+
+      return book
+    },
+    deleteBook: (_, { input: { id } }, { me }) => {
+      const { [id]: book, ...otherBooks } = books
+      if (!book) return false
+      books = otherBooks
+      const bookIndex = users[me.id].bookIds.find(id => id === book.id)
+      users[me.id].bookIds.splice(bookIndex, 1)
+      return true
+    },
+    updateBookTitle: (_, { input: { id, newTitle } }) => {
+      const { [id]: book, ...otherBooks } = books
+      book.title = newTitle
+      return books[id]
+    }
   },
   User: {
     username: user => user.username.toLowerCase(),
