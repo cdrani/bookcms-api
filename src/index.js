@@ -7,17 +7,20 @@ app.use(cors())
 
 const schema = gql`
   type Query {
-    me: [User!]!
-    book: [Books!]!
+    user(id: ID!): User
+    users: [User!]
+    books: [Book!]!
+    book(id: ID!): Book
   }
 
   type User {
+    id: ID!
     username: String!
     email: String!
     password: String!
   }
 
-  type Books {
+  type Book {
     id: ID!
     author: String!
     title: String!
@@ -28,38 +31,48 @@ const schema = gql`
   }
 `
 
+const users = {
+  sdjlafjsd: {
+    id: 'sdjlafjsd',
+    username: 'spinelli',
+    email: 'spinell@gmail.com',
+    password: 'spinellitortellini'
+  },
+  ldsjafjls: {
+    id: 'ldsjafjls',
+    username: 'vlassel',
+    email: 'spinell@gmail.com',
+    password: 'lasseltassel'
+  }
+}
+
+const books = {
+  sdjlafjsd: {
+    id: 'sdjlafjsd',
+    author: 'Ashley Spinell',
+    title: '4th Grade War Stories',
+    currentChapter: 5,
+    chapters: 12,
+    currentPage: 79,
+    pages: 231
+  },
+  ldsjafjls: {
+    id: 'ldsjafjls',
+    author: 'Vince Lassel',
+    title: 'School Legend',
+    currentChapter: 8,
+    chapters: 15,
+    currentPage: 153,
+    pages: 275
+  }
+}
+
 const resolvers = {
   Query: {
-    me: () => [
-      {
-        username: 'spinelli',
-        email: 'spinell@gmail.com',
-        password: 'spinellitortellini'
-      },
-      {
-        username: 'vlassel',
-        email: 'spinell@gmail.com',
-        password: 'lasseltassel'
-      }
-    ],
-    book: () => [
-      {
-        author: 'Ashley Spinell',
-        title: '4th Grade War Stories',
-        currentChapter: 5,
-        chapters: 12,
-        currentPage: 79,
-        pages: 231
-      },
-      {
-        author: 'Vince Lassel',
-        title: 'School Legend',
-        currentChapter: 8,
-        chapters: 15,
-        currentPage: 153,
-        pages: 275
-      }
-    ]
+    user: (parent, args) => users[args.id],
+    users: () => Object.values(users),
+    books: () => Object.values(books),
+    book: (parent, args) => books[args.id]
   }
 }
 
