@@ -10,12 +10,13 @@ const schema = gql`
     me: User
     user(id: ID!): User
     users: [User!]
-    books: [Book!]!
+    books: [Book!]
     book(id: ID!): Book
   }
 
   type User {
     id: ID!
+    books: [Book!]
     username: String!
     email: String!
     password: String!
@@ -29,6 +30,7 @@ const schema = gql`
     chapters: Int!
     currentPage: Int!
     pages: Int!
+    user: User!
   }
 `
 
@@ -37,19 +39,22 @@ const users = {
     id: 'sdjlafjsd',
     username: 'spinelli',
     email: 'spinell@gmail.com',
-    password: 'spinellitortellini'
+    password: 'spinellitortellini',
+    bookIds: ['woeurweq']
   },
   ldsjafjls: {
     id: 'ldsjafjls',
     username: 'vlassel',
     email: 'vlassel@gmail.com',
-    password: 'lasseltassel'
+    password: 'lasseltassel',
+    bookIds: ['sjcnvkjlj']
   }
 }
 
 const books = {
-  sdjlafjsd: {
-    id: 'sdjlafjsd',
+  woeurweq: {
+    id: 'woeurweq',
+    userId: 'sdjlafjsd',
     author: 'Ashley Spinell',
     title: '4th Grade War Stories',
     currentChapter: 5,
@@ -57,8 +62,9 @@ const books = {
     currentPage: 79,
     pages: 231
   },
-  ldsjafjls: {
-    id: 'ldsjafjls',
+  sjcnvkjlj: {
+    id: 'sjcnvkjlj',
+    userId: 'ldsjafjls',
     author: 'Vince Lassel',
     title: 'School Legend',
     currentChapter: 8,
@@ -76,13 +82,19 @@ const resolvers = {
     books: () => Object.values(books),
     book: (parent, args) => books[args.id]
   },
-  User: { username: user => user.username.toLowerCase() }
+  User: {
+    username: user => user.username.toLowerCase(),
+    books: user => Object.values(books).filter(book => book.userId === user.id)
+  },
+  Book: {
+    user: (book, args, ctx) => users[book.userId]
+  }
 }
 
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
-  context: { me: users['ldsjafjls']}
+  context: { me: users['ldsjafjls'] }
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
