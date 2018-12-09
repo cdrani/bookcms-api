@@ -1,3 +1,8 @@
+import jwt from 'jsonwebtoken'
+
+const createToken = async ({ id, email, username }, secret, expiresIn) =>
+  await jwt.sign({ id, email, username }, secret, expiresIn)
+
 export default {
   Query: {
     users: async (_root, _args, { models: { User } }) => await User.findAll(),
@@ -10,10 +15,10 @@ export default {
     signUp: async (
       _root,
       { input: { username, email, password } },
-      { models: { User } }
+      { secret, models: { User } }
     ) => {
       const user = await User.create({ username, email, password })
-      return { token: createToken(user)}
+      return { token: createToken(user, secret, '30m') }
     }
   },
   User: {

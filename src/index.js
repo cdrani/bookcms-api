@@ -25,7 +25,11 @@ const server = new ApolloServer({
       message
     }
   },
-  context: async () => ({ models, me: models.User.findByLogin('spinelli') })
+  context: async () => ({
+    models,
+    me: models.User.findByLogin('spinelli'),
+    secret: process.env.SECRET
+  })
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
