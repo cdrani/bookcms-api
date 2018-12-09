@@ -6,7 +6,7 @@ const user = (sequelize, DataTypes) => {
   })
 
   User.associate = models => {
-    User.hasMany(models.Books, { onDelete: 'CASCADE' })
+    User.hasMany(models.Book, { onDelete: 'CASCADE' })
   }
 
   return User

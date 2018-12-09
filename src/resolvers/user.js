@@ -1,12 +1,14 @@
 export default {
   Query: {
-    users: (root, _, { models: { users } }) => Object.values(users),
-    user: (_, { id }, { models: { users } }) => users[id],
-    me: (_, args, { me }) => me
+    users: async (_root, _args, { models: { User } }) => await User.findAll(),
+    user: async (_root, { id }, { models: { User } }) =>
+      await User.findById(id),
+    me: async (_root, _args, { me: { id }, models: { User } }) =>
+      await User.findById(id)
   },
   User: {
-    username: user => user.username.toLowerCase(),
-    books: (user, _, { models: { books } }) =>
-      Object.values(books).filter(book => book.userId === user.id)
+    username: async user => await user.username.toLowerCase(),
+    books: async (user, _args, { models: { Book } }) =>
+      await Book.findAll({ where: { userId: user.id } })
   }
 }

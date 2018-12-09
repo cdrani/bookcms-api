@@ -2,10 +2,10 @@ const book = (sequelize, DataTypes) => {
   const Book = sequelize.define('book', {
     author: { type: DataTypes.STRING },
     title: { type: DataTypes.STRING },
-    currentChapter: { type: DataTypes.INT },
-    chapters: { type: DataTypes.INT },
-    currentPage: { type: DataTypes.INT },
-    pages: { type: DataTypes.INT }
+    currentChapter: { type: DataTypes.INTEGER },
+    chapters: { type: DataTypes.INTEGER },
+    currentPage: { type: DataTypes.INTEGER },
+    pages: { type: DataTypes.INTEGER }
   })
 
   Book.associate = models => {

@@ -2,20 +2,19 @@ import shortid from 'shortid'
 
 export default {
   Query: {
-    books: (root, _, { models: { books } }) => Object.values(books),
-    book: (_, { id }, { models: { books } }) => books[id]
+    books: async (_root, _args, { models: { Book } }) => await Book.findAll(),
+    book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
   },
+
   Mutation: {
-    createBook: (
-      _,
+    createBook: async (
+      _root,
       {
         input: { title, author, pages, chapters, currentPage, currentChapter }
       },
-      { me, models: { users, books } }
-    ) => {
-      const id = shortid.generate()
-      const book = {
-        id,
+      { models: { Book } }
+    ) =>
+      await Book.create({
         title,
         author,
         pages,
@@ -23,33 +22,20 @@ export default {
         chapters,
         currentChapter,
         userId: me.id
-      }
+      }),
 
-      books[id] = book
-      users[me.id].bookIds.push(id)
+    deleteBook: async (_root, { input: { id } }, { models: { Book } }) =>
+      await Book.destroy({ where: { id } }),
 
-      return book
-    },
-    deleteBook: (_, { input: { id } }, { me, models }) => {
-      const { users, books } = models
-      const { [id]: book, ...otherBooks } = books
-      if (!book) return false
-      models.books = otherBooks
-      const bookIndex = users[me.id].bookIds.find(id => id === book.id)
-      users[me.id].bookIds.splice(bookIndex, 1)
-      return true
-    },
-    updateBookTitle: (
+    updateBookTitle: async (
       _,
       { input: { id, newTitle } },
-      { models: { books } }
-    ) => {
-      const { [id]: book, ...otherBooks } = books
-      book.title = newTitle
-      return books[id]
-    }
+      { models: { Book } }
+    ) => await Book.update({ title: newTitle })
   },
+
   Book: {
-    user: (book, _, { models: { users } }) => users[book.userId]
+    user: async (book, _args, { models: { User } }) =>
+      await User.findById(book.userId)
   }
 }
