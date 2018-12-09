@@ -7,10 +7,24 @@ export default gql`
     me: User
   }
 
+  extend type Mutation {
+    signUp(input: signUpInput!): Token!
+  }
+
   type User {
     id: ID!
     books: [Book!]
     username: String!
     email: String!
+  }
+
+  type Token {
+    token: String!
+  }
+
+  input signUpInput {
+    username: String!
+    email: String!
+    password: String!
   }
 `
