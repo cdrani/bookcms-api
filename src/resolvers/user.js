@@ -6,6 +6,16 @@ export default {
     me: async (_root, _args, { me: { id }, models: { User } }) =>
       await User.findById(id)
   },
+  Mutation: {
+    signUpInput: async (
+      _root,
+      { input: { username, email, password } },
+      { models: { User } }
+    ) => {
+      const user = await User.create({ username, email, password })
+      return { token: createToken(user)}
+    }
+  },
   User: {
     username: async user => await user.username.toLowerCase(),
     books: async (user, _args, { models: { Book } }) =>
