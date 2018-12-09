@@ -7,7 +7,7 @@ export default {
       await User.findById(id)
   },
   Mutation: {
-    signUpInput: async (
+    signUp: async (
       _root,
       { input: { username, email, password } },
       { models: { User } }

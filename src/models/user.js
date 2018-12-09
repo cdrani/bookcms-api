@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+
 const user = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
     username: {
@@ -32,6 +34,12 @@ const user = (sequelize, DataTypes) => {
 
     return user
   }
+
+  const generatePasswordHash = async password => await bcrypt.hash(password, 10)
+
+  User.beforeCreate(async user => {
+    user.password = await generatePasswordHash(user.password)
+  })
 
   return User
 }
