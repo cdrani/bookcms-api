@@ -12,6 +12,5 @@ export default gql`
     books: [Book!]
     username: String!
     email: String!
-    password: String!
   }
 `
