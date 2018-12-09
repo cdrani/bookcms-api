@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import cors from 'cors'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
@@ -12,7 +13,7 @@ app.use(cors())
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
-  context: { models, me: models.users['ldsjafjls'] }
+  context: async () => ({ models, me: models.User.findByLogin('spinelli') })
 })
 
 server.applyMiddleware({ app, path: '/graphql' })

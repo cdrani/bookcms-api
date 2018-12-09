@@ -12,7 +12,7 @@ export default {
       {
         input: { title, author, pages, chapters, currentPage, currentChapter }
       },
-      { models: { Book } }
+      { me, models: { Book } }
     ) =>
       await Book.create({
         title,
@@ -28,10 +28,13 @@ export default {
       await Book.destroy({ where: { id } }),
 
     updateBookTitle: async (
-      _,
+      _root,
       { input: { id, newTitle } },
       { models: { Book } }
-    ) => await Book.update({ title: newTitle })
+    ) => {
+      const book = await Book.findById(id)
+      return book.update({ title: newTitle }, { where: { id: id }, returning: true })
+    }
   },
 
   Book: {
