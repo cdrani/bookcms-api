@@ -10,6 +10,7 @@ export default gql`
   extend type Mutation {
     signUp(input: signUpInput!): Token!
     signIn(input: signInInput!): Token!
+    deleteMyAccount: Boolean!
   }
 
   type User {

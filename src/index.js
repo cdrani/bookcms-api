@@ -41,7 +41,7 @@ const server = new ApolloServer({
     const me = await getMe(req)
     return {
       models,
-      me: models.User.findByLogin('spinelli'),
+      me,
       secret: process.env.SECRET
     }
   }

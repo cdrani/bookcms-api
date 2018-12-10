@@ -29,12 +29,14 @@ export default {
     ),
 
     deleteBook: combineResolvers(
+      isAuthenticated,
       isBookOwner,
       async (_root, { input: { id } }, { models: { Book } }) =>
         await Book.destroy({ where: { id } })
     ),
 
     updateBookTitle: combineResolvers(
+      isAuthenticated,
       isBookOwner,
       async (_root, { input: { id, newTitle } }, { models: { Book } }) => {
         const book = await Book.findById(id)
