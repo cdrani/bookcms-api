@@ -33,7 +33,10 @@ export default {
       { models: { Book } }
     ) => {
       const book = await Book.findById(id)
-      return book.update({ title: newTitle }, { where: { id: id }, returning: true })
+      return book.update(
+        { title: newTitle },
+        { where: { id: id }, returning: true }
+      )
     }
   },
 
