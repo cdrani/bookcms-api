@@ -1,4 +1,5 @@
-import shortid from 'shortid'
+import { combineResolvers } from 'graphql-resolvers'
+import { isAuthenticated } from './authorization'
 
 export default {
   Query: {
@@ -7,22 +8,25 @@ export default {
   },
 
   Mutation: {
-    createBook: async (
-      _root,
-      {
-        input: { title, author, pages, chapters, currentPage, currentChapter }
-      },
-      { me, models: { Book } }
-    ) =>
-      await Book.create({
-        title,
-        author,
-        pages,
-        currentPage,
-        chapters,
-        currentChapter,
-        userId: me.id
-      }),
+    createBook: combineResolvers(
+      isAuthenticated,
+      async (
+        _root,
+        {
+          input: { title, author, pages, chapters, currentPage, currentChapter }
+        },
+        { me, models: { Book } }
+      ) =>
+        await Book.create({
+          title,
+          author,
+          pages,
+          currentPage,
+          chapters,
+          currentChapter,
+          userId: me.id
+        })
+    ),
 
     deleteBook: async (_root, { input: { id } }, { models: { Book } }) =>
       await Book.destroy({ where: { id } }),
