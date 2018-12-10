@@ -33,11 +33,12 @@ export default gql`
   type Book {
     id: ID!
     author: String!
-    title: String!
-    currentChapter: Int!
     chapters: Int!
+    currentChapter: Int!
     currentPage: Int!
+    createdAt: Date!
     pages: Int!
+    title: String!
     user: User!
   }
 `

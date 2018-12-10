@@ -51,7 +51,7 @@ server.applyMiddleware({ app, path: '/graphql' })
 
 const eraseDatabaseOnSync = true
 
-const createUsersWithBooks = async () => {
+const createUsersWithBooks = async date => {
   await models.User.create(
     {
       username: 'spinelli',
@@ -60,6 +60,7 @@ const createUsersWithBooks = async () => {
       books: [
         {
           author: 'Vince Lassel',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
           title: 'Vicenzo',
           currentChapter: 8,
           chapters: 15,
@@ -79,6 +80,7 @@ const createUsersWithBooks = async () => {
       books: [
         {
           author: 'Ashley Spinelli',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
           title: 'Spin Cycle',
           currentChapter: 9,
           chapters: 12,
@@ -94,7 +96,7 @@ const createUsersWithBooks = async () => {
 // remove force option prior to deploy
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    createUsersWithBooks()
+    createUsersWithBooks(new Date())
   }
 
   app.listen({ port: 8000 }, () => {

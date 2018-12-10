@@ -1,4 +1,10 @@
+import { GraphQLDateTime } from 'graphql-iso-date'
+
 import userResolvers from './user'
 import bookResolvers from './book'
 
-export default [userResolvers, bookResolvers]
+const customeScalarResolver = {
+  Date: GraphQLDateTime
+}
+
+export default [customeScalarResolver, userResolvers, bookResolvers]
