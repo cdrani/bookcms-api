@@ -1,9 +1,20 @@
+import Sequelize from 'sequelize'
 import { combineResolvers } from 'graphql-resolvers'
+
 import { isAuthenticated, isBookOwner } from './authorization'
 
 export default {
   Query: {
-    books: async (_root, _args, { models: { Book } }) => await Book.findAll(),
+    books: async (
+      _root,
+      { input: { cursor, limit = 50 } },
+      { models: { Book } }
+    ) =>
+      await Book.findAll({
+        order: [['createdAt', 'DESC']],
+        limit,
+        where: cursor ? { createdAt: { [Sequelize.Op.lt]: cursor } } : null
+      }),
     book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
   },
 

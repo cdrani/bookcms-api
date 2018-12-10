@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Query {
-    books: [Book!]
+    books(input: booksInput): [Book!]!
     book(id: ID!): Book
   }
 
@@ -10,6 +10,23 @@ export default gql`
     createBook(input: createBookInput!): Book
     deleteBook(input: deleteBookInput!): Boolean!
     updateBookTitle(input: UpdateBookTitleInput!): Book
+  }
+
+  type Book {
+    id: ID!
+    author: String!
+    chapters: Int!
+    currentChapter: Int!
+    currentPage: Int!
+    createdAt: Date!
+    pages: Int!
+    title: String!
+    user: User!
+  }
+
+  input booksInput {
+    cursor: String
+    limit: Int
   }
 
   input deleteBookInput {
@@ -28,17 +45,5 @@ export default gql`
   input UpdateBookTitleInput {
     id: ID!
     newTitle: String!
-  }
-
-  type Book {
-    id: ID!
-    author: String!
-    chapters: Int!
-    currentChapter: Int!
-    currentPage: Int!
-    createdAt: Date!
-    pages: Int!
-    title: String!
-    user: User!
   }
 `
