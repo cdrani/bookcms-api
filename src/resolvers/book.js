@@ -78,7 +78,7 @@ export default {
   },
 
   Book: {
-    user: async (book, _args, { models: { User } }) =>
-      await User.findById(book.userId)
+    user: async (book, _args, { loaders: { user }, models: { User } }) =>
+      await user.load(book.userId)
   }
 }
