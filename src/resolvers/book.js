@@ -9,12 +9,18 @@ export default {
       _root,
       { input: { cursor, limit = 50 } },
       { models: { Book } }
-    ) =>
-      await Book.findAll({
+    ) => {
+      const books = await Book.findAll({
         order: [['createdAt', 'DESC']],
         limit,
         where: cursor ? { createdAt: { [Sequelize.Op.lt]: cursor } } : null
-      }),
+      })
+
+      return {
+        edges: books,
+        pageInfo: { endCursor: books[books.length - 1].createdAt }
+      }
+    },
     book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
   },
 
