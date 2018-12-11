@@ -31,6 +31,7 @@ export default gql`
 
   type PageInfo {
     endCursor: Date!
+    hasNextPage: Boolean!
   }
 
   input booksInput {

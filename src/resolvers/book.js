@@ -12,13 +12,16 @@ export default {
     ) => {
       const books = await Book.findAll({
         order: [['createdAt', 'DESC']],
-        limit,
+        limit: limit + 1,
         where: cursor ? { createdAt: { [Sequelize.Op.lt]: cursor } } : null
       })
 
+      const hasNextPage = books.length > limit
+      const edges = hasNextPage ? books.slice(0, -1) : books
+
       return {
-        edges: books,
-        pageInfo: { endCursor: books[books.length - 1].createdAt }
+        edges,
+        pageInfo: { endCursor: edges[edges.length - 1].createdAt, hasNextPage }
       }
     },
     book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
