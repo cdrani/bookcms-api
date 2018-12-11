@@ -8,7 +8,11 @@
     "test-server": "TEST_DATABASE=mytestdatabase npm start",
     "test": "mocha --require @babel/register 'src/**/*.spec.js'"
   },
-  "keywords": ["bookcms", "graphql", "api"],
+  "keywords": [
+    "bookcms",
+    "graphql",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -25,6 +29,7 @@
     "apollo-server-express": "2.2.6",
     "bcrypt": "3.0.2",
     "cors": "2.8.5",
+    "dataloader": "1.4.0",
     "dotenv": "^6.1.0",
     "express": "4.16.4",
     "graphql": "14.0.2",
