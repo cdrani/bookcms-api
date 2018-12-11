@@ -5,15 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
-    "test": "echo \"No test specified\" && exit 0"
+    "test-server": "TEST_DATABASE=mytestdatabase npm start",
+    "test": "mocha --require @babel/register 'src/**/*.spec.js'"
   },
-  "keywords": [],
+  "keywords": ["bookcms", "graphql", "api"],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
+    "axios": "0.18.0",
+    "chai": "4.2.0",
+    "mocha": "5.2.0",
     "nodemon": "^1.18.7"
   },
   "dependencies": {

@@ -49,8 +49,6 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' })
 
-const eraseDatabaseOnSync = true
-
 const createUsersWithBooks = async date => {
   await models.User.create(
     {
@@ -93,9 +91,11 @@ const createUsersWithBooks = async date => {
   )
 }
 
+const isTest = !!process.env.TEST_DATABASE
+
 // remove force option prior to deploy
-sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
-  if (eraseDatabaseOnSync) {
+sequelize.sync({ force: isTest }).then(async () => {
+  if (isTest) {
     createUsersWithBooks(new Date())
   }
 
