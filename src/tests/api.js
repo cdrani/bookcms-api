@@ -15,3 +15,28 @@ export const user = async variables =>
     `,
     variables
   })
+
+export const signIn = async variables =>
+  axios.post(API_URL, {
+    query: `
+      mutation($input: signInInput!) {
+        signIn(input: $input) {
+          token
+        }
+      }
+    `,
+    variables
+  })
+
+export const deleteMyAccount = async token =>
+  axios.post(
+    API_URL,
+    {
+      query: `
+        mutation {
+          deleteMyAccount
+        } 
+      `
+    },
+    { headers: { 'x-token': token } }
+  )

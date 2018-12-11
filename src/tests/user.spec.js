@@ -26,4 +26,28 @@ describe('users', () => {
       expect(result.data).to.eql(expectedResult)
     })
   })
+
+  describe('deleteMyAccount: Boolean!', () => {
+    it('returns true if authenticated user deleted', async () => {
+      const {
+        data: {
+          data: {
+            signIn: { token }
+          }
+        }
+      } = await userApi.signIn({
+        input: {
+          login: 'spinelli',
+          password: 'spinellitortellini'
+        }
+      })
+
+      const {
+        data: {
+          data: { deleteMyAccount }
+        }
+      } = await userApi.deleteMyAccount(token)
+      expect(deleteMyAccount).to.eql(true)
+    })
+  })
 })
