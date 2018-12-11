@@ -1,5 +1,5 @@
 {
-  "name": "graphql-api",
+  "name": "bookcms-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,13 +8,9 @@
     "test-server": "TEST_DATABASE=mytestdatabase npm start",
     "test": "mocha --require @babel/register 'src/**/*.spec.js'"
   },
-  "keywords": [
-    "bookcms",
-    "graphql",
-    "api"
-  ],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["bookcms", "graphql", "api"],
+  "author": "cdrainxv",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/node": "^7.0.0",
@@ -37,7 +33,6 @@
     "graphql-resolvers": "0.2.2",
     "jsonwebtoken": "8.4.0",
     "pg": "7.7.1",
-    "sequelize": "4.41.2",
-    "shortid": "2.2.14"
+    "sequelize": "4.41.2"
   }
 }
