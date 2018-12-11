@@ -73,7 +73,7 @@ const createUsersWithBooks = async date => {
   await models.User.create(
     {
       username: 'vlassel',
-      email: 'vlasses@gmail.com',
+      email: 'vlassel@gmail.com',
       password: 'lasseltassel',
       books: [
         {
@@ -93,7 +93,6 @@ const createUsersWithBooks = async date => {
 
 const isTest = !!process.env.TEST_DATABASE
 
-// remove force option prior to deploy
 sequelize.sync({ force: isTest }).then(async () => {
   if (isTest) {
     createUsersWithBooks(new Date())

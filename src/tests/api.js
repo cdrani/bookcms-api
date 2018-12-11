@@ -16,6 +16,18 @@ export const user = async variables =>
     variables
   })
 
+export const signUp = async variables =>
+  axios.post(API_URL, {
+    query: `
+      mutation($input: signUpInput!) {
+        signUp(input: $input) {
+          token
+        }
+      }
+    `,
+    variables
+  })
+
 export const signIn = async variables =>
   axios.post(API_URL, {
     query: `
@@ -40,3 +52,26 @@ export const deleteMyAccount = async token =>
     },
     { headers: { 'x-token': token } }
   )
+
+export const createBook = async (variables, token) => {
+  console.log(variables, token)
+  return axios.post(
+    API_URL,
+    {
+      query: `
+        mutation($input: createBookInput!) {
+          createBook(input: $input) {
+            title
+            author
+            currentPage
+            pages
+            chapter
+            currentChapter
+          }
+        }
+      `,
+      variables
+    },
+    { headers: { 'x-token': token } }
+  )
+}
