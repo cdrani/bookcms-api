@@ -8,6 +8,7 @@ import DataLoader from 'dataloader'
 import models, { sequelize } from './models'
 import resolvers from './resolvers'
 import schema from './schema'
+import loaders from './loaders'
 
 const app = express()
 app.use(cors())
@@ -22,13 +23,6 @@ const getMe = async req => {
     }
   }
 }
-
-const batchUsers = async (keys, models) => {
-  const users = await models.User.findAll({ where: { id: { $in: keys } } })
-  return keys.map(key => users.find(user => user.id === key))
-}
-
-const userLoader = new DataLoader(keys => batchUsers(keys, models))
 
 const server = new ApolloServer({
   typeDefs: schema,
@@ -51,7 +45,9 @@ const server = new ApolloServer({
       models,
       me,
       secret: process.env.SECRET,
-      loaders: { user: userLoader }
+      loaders: {
+        user: new DataLoader(keys => loaders.user.batchUsers(keys, models))
+      }
     }
   }
 })
