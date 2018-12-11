@@ -3,6 +3,10 @@ import { combineResolvers } from 'graphql-resolvers'
 
 import { isAuthenticated, isBookOwner } from './authorization'
 
+const toCursorHash = string => Buffer.from(string).toString('base64')
+
+const fromCursorHash = string => Buffer.from(string, 'base64').toString('ascii')
+
 export default {
   Query: {
     books: async (
@@ -13,7 +17,9 @@ export default {
       const books = await Book.findAll({
         order: [['createdAt', 'DESC']],
         limit: limit + 1,
-        where: cursor ? { createdAt: { [Sequelize.Op.lt]: cursor } } : null
+        where: cursor
+          ? { createdAt: { [Sequelize.Op.lt]: fromCursorHash(cursor) } }
+          : null
       })
 
       const hasNextPage = books.length > limit
@@ -21,7 +27,10 @@ export default {
 
       return {
         edges,
-        pageInfo: { endCursor: edges[edges.length - 1].createdAt, hasNextPage }
+        pageInfo: {
+          endCursor: toCursorHash(edges[edges.length - 1].createdAt.toString()),
+          hasNextPage
+        }
       }
     },
     book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
