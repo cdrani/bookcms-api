@@ -25,8 +25,8 @@ const getMe = async req => {
 }
 
 const server = new ApolloServer({
-  introspection: true,
   playground: true,
+  introspection: true,
   typeDefs: schema,
   resolvers,
   formatError: error => {
@@ -107,7 +107,7 @@ sequelize.sync({ force: isTest || isProduction }).then(async () => {
     createUsersWithBooks(new Date())
   }
 
-  server.listen({ port }).then(() => {
+  app.listen({ port }, () => {
     console.log(`Apollo Server on https://localhost:${port}/graphql`)
   })
 })
