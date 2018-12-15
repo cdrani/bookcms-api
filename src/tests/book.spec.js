@@ -13,7 +13,7 @@ xdescribe('books', () => {
       } = await userApi.signIn({
         input: {
           login: 'vince',
-          password: 'lassel'
+          password: 'vlassel'
         }
       })
 

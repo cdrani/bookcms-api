@@ -82,7 +82,7 @@ const createUsersWithBooks = async date => {
     {
       username: 'vince',
       email: 'vlassel@gmail.com',
-      password: 'lassel',
+      password: 'vlassel',
       books: [
         {
           author: 'Ashley Spinelli',
