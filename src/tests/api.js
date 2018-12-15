@@ -63,6 +63,7 @@ export const createBook = async (variables, token) => {
           createBook(input: $input) {
             title
             author
+            category
             currentPage
             pages
             chapter

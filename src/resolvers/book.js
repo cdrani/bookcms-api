@@ -42,13 +42,14 @@ export default {
       async (
         _root,
         {
-          input: { title, author, pages, chapters, currentPage, currentChapter }
+          input: { title, author, category, pages, chapters, currentPage, currentChapter }
         },
         { me, models: { Book } }
       ) =>
         await Book.create({
           title,
           author,
+          category,
           pages,
           currentPage,
           chapters,

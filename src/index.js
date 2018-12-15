@@ -59,9 +59,9 @@ server.applyMiddleware({ app, path: '/graphql' })
 const createUsersWithBooks = async date => {
   await models.User.create(
     {
-      username: 'spinelli',
+      username: 'ashley',
       email: 'spinelli@gmail.com',
-      password: 'spinellitortellini',
+      password: 'spinelli',
       books: [
         {
           author: 'Vince Lassel',
@@ -79,9 +79,9 @@ const createUsersWithBooks = async date => {
 
   await models.User.create(
     {
-      username: 'vlassel',
+      username: 'vince',
       email: 'vlassel@gmail.com',
-      password: 'lasseltassel',
+      password: 'lassel',
       books: [
         {
           author: 'Ashley Spinelli',

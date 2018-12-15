@@ -8,7 +8,7 @@ describe('users', () => {
         data: {
           user: {
             id: '1',
-            username: 'spinelli',
+            username: 'ashley',
             email: 'spinelli@gmail.com'
           }
         }
@@ -37,8 +37,8 @@ describe('users', () => {
         }
       } = await userApi.signIn({
         input: {
-          login: 'spinelli',
-          password: 'spinellitortellini'
+          login: 'ashley',
+          password: 'spinelli'
         }
       })
 

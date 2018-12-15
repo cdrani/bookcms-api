@@ -10,6 +10,11 @@ const book = (sequelize, DataTypes) => {
       allowNull: false,
       validate: { notEmpty: true }
     },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: true }
+    },
     currentChapter: {
       type: DataTypes.INTEGER,
       allowNull: false,

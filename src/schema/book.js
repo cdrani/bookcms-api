@@ -15,6 +15,7 @@ export default gql`
   type Book {
     id: ID!
     author: String!
+    category: String!
     chapters: Int!
     currentChapter: Int!
     currentPage: Int!
@@ -46,6 +47,7 @@ export default gql`
   input createBookInput {
     title: String!
     author: String!
+    category: String!
     currentChapter: Int!
     chapters: Int!
     currentPage: Int!

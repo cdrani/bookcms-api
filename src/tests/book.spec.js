@@ -12,8 +12,8 @@ xdescribe('books', () => {
         }
       } = await userApi.signIn({
         input: {
-          login: 'vlassel',
-          password: 'lasseltassel'
+          login: 'vince',
+          password: 'lassel'
         }
       })
 
@@ -22,6 +22,7 @@ xdescribe('books', () => {
           createBook: {
             title: 'The Great Khan',
             author: 'Simon Watershed',
+            category: 'Novel',
             chapters: 15,
             currentChapter: 11,
             currentPage: 210,
@@ -35,6 +36,7 @@ xdescribe('books', () => {
           input: {
             title: 'The Great Khan',
             author: 'Simon Watershed',
+            category: 'Novel',
             chapters: 15,
             currentChapter: 11,
             currentPage: 210,
