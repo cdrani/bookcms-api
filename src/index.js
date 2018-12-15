@@ -65,8 +65,9 @@ const createUsersWithBooks = async date => {
       books: [
         {
           author: 'Vince Lassel',
-          createdAt: date.setSeconds(date.getSeconds() + 1),
           title: 'Vicenzo',
+          category: 'Novel',
+          createdAt: date.setSeconds(date.getSeconds() + 1),
           currentChapter: 8,
           chapters: 15,
           currentPage: 153,
@@ -87,6 +88,7 @@ const createUsersWithBooks = async date => {
           author: 'Ashley Spinelli',
           createdAt: date.setSeconds(date.getSeconds() + 1),
           title: 'Spin Cycle',
+          category: 'Novel',
           currentChapter: 9,
           chapters: 12,
           currentPage: 210,
