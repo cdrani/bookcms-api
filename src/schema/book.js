@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     books(input: booksInput): BookConnection!
     book(id: ID!): Book
+    myBooks(input: booksInput): BookConnection!
   }
 
   extend type Mutation {

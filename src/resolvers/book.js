@@ -9,6 +9,38 @@ const fromCursorHash = string => Buffer.from(string, 'base64').toString('ascii')
 
 export default {
   Query: {
+    myBooks: combineResolvers(
+      isAuthenticated,
+      async (
+        _root,
+        { input: { cursor, limit = 10 } },
+        { me: { id }, models: { User, Book } }
+      ) => {
+        const fieldsObj = { userId: id }
+        if (cursor) {
+          fieldsObj['createdAt'] = { [Sequelize.Op.lt]: fromCursorHash(cursor) }
+        }
+
+        const books = await Book.findAll({
+          order: [['createdAt', 'DESC']],
+          limit: limit + 1,
+          where: fieldsObj
+        })
+
+        const hasNextPage = books.length > limit
+        const edges = hasNextPage ? books.slice(0, -1) : books
+
+        return {
+          edges,
+          pageInfo: {
+            endCursor: toCursorHash(
+              edges[edges.length - 1].createdAt.toString()
+            ),
+            hasNextPage
+          }
+        }
+      }
+    ),
     books: async (
       _root,
       { input: { cursor, limit = 50 } },
@@ -42,7 +74,15 @@ export default {
       async (
         _root,
         {
-          input: { title, author, category, pages, chapters, currentPage, currentChapter }
+          input: {
+            title,
+            author,
+            category,
+            pages,
+            chapters,
+            currentPage,
+            currentChapter
+          }
         },
         { me, models: { Book } }
       ) =>
