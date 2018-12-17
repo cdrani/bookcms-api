@@ -29,6 +29,7 @@ export default gql`
   type BookConnection {
     edges: [Book!]!
     pageInfo: PageInfo!
+    bookCount: Int!
   }
 
   type PageInfo {

@@ -21,6 +21,8 @@ export default {
           fieldsObj['createdAt'] = { [Sequelize.Op.lt]: fromCursorHash(cursor) }
         }
 
+        const bookCount = await Book.count({ where: { userId: id } })
+
         const books = await Book.findAll({
           order: [['createdAt', 'DESC']],
           limit: limit + 1,
@@ -37,7 +39,8 @@ export default {
               edges[edges.length - 1].createdAt.toString()
             ),
             hasNextPage
-          }
+          },
+          bookCount
         }
       }
     ),
@@ -46,6 +49,8 @@ export default {
       { input: { cursor, limit = 50 } },
       { models: { Book } }
     ) => {
+      const bookCount = await Book.count()
+
       const books = await Book.findAll({
         order: [['createdAt', 'DESC']],
         limit: limit + 1,
@@ -62,7 +67,8 @@ export default {
         pageInfo: {
           endCursor: toCursorHash(edges[edges.length - 1].createdAt.toString()),
           hasNextPage
-        }
+        },
+        bookCount
       }
     },
     book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
