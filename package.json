@@ -1,7 +1,7 @@
 {
   "name": "bookcms-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "apollo graphql api for bookcms app",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",

@@ -54,7 +54,7 @@ const server = new ApolloServer({
   }
 })
 
-server.applyMiddleware({ app, path: '/graphql' })
+server.applyMiddleware({ app, path: '/' })
 
 const createUsersWithBooks = async date => {
   await models.User.create(
@@ -110,6 +110,6 @@ sequelize.sync({ force: isTest || isProduction }).then(async () => {
   }
 
   app.listen({ port }, () => {
-    console.log(`Apollo Server on https://localhost:${port}/graphql`)
+    console.log(`Apollo Server on https://localhost:${port}`)
   })
 })
