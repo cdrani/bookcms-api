@@ -111,14 +111,40 @@ export default {
         await Book.destroy({ where: { id } })
     ),
 
-    updateBookTitle: combineResolvers(
+    editBook: combineResolvers(
       isAuthenticated,
-      isBookOwner,
-      async (_root, { input: { id, newTitle } }, { models: { Book } }) => {
-        const book = await Book.findById(id)
-        return book.update(
-          { title: newTitle },
-          { where: { id: id }, returning: true }
+      async (_root, { input }, { me, models: { Book } }) => {
+        const book = await Book.findOne({
+          where: { id: input.id, userId: me.id }
+        })
+
+        for (const key in input) {
+          if (key !== 'id' && !input[key])
+            input[key] = book._previousDataValues[key]
+        }
+
+        const {
+          id,
+          title,
+          author,
+          category,
+          currentChapter,
+          chapters,
+          currentPage,
+          pages
+        } = input
+
+        return await book.update(
+          {
+            title,
+            author,
+            category,
+            currentChapter,
+            chapters,
+            currentPage,
+            pages
+          },
+          { where: { id }, returning: true }
         )
       }
     )

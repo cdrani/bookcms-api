@@ -10,7 +10,7 @@ export default gql`
   extend type Mutation {
     createBook(input: createBookInput!): Book
     deleteBook(input: deleteBookInput!): Boolean!
-    updateBookTitle(input: UpdateBookTitleInput!): Book
+    editBook(input: editBookInput): Book
   }
 
   type Book {
@@ -56,8 +56,14 @@ export default gql`
     pages: Int!
   }
 
-  input UpdateBookTitleInput {
+  input editBookInput {
     id: ID!
-    newTitle: String!
+    title: String!
+    author: String!
+    category: String!
+    currentChapter: Int!
+    chapters: Int!
+    currentPage: Int!
+    pages: Int!
   }
 `
