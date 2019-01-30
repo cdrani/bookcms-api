@@ -113,9 +113,10 @@ export default {
 
     editBook: combineResolvers(
       isAuthenticated,
-      async (_root, { input }, { me, models: { Book } }) => {
+      isBookOwner,
+      async (_root, { input }, { models: { Book } }) => {
         const book = await Book.findOne({
-          where: { id: input.id, userId: me.id }
+          where: { id: input.id }
         })
 
         for (const key in input) {
