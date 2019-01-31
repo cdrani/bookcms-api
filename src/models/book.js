@@ -10,22 +10,7 @@ const book = (sequelize, DataTypes) => {
       allowNull: false,
       validate: { notEmpty: true }
     },
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: { notEmpty: true }
-    },
-    currentChapter: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: { notEmpty: true }
-    },
     chapters: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: { notEmpty: true }
-    },
-    currentPage: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: { notEmpty: true }
@@ -34,6 +19,19 @@ const book = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: { notEmpty: true }
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: true }
+    },
+    currentChapter: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    },
+    currentPage: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
     }
   })
 

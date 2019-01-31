@@ -86,8 +86,6 @@ export default {
             category,
             pages,
             chapters,
-            currentPage,
-            currentChapter
           }
         },
         { me, models: { Book } }
@@ -97,9 +95,7 @@ export default {
           author,
           category,
           pages,
-          currentPage,
           chapters,
-          currentChapter,
           userId: me.id
         })
     ),
@@ -119,30 +115,16 @@ export default {
           where: { id: input.id }
         })
 
-        for (const key in input) {
-          if (key !== 'id' && !input[key])
-            input[key] = book._previousDataValues[key]
-        }
+        const { title: oldTitle, author: oldAuthor, category: oldCategory, chapters: oldChapters, pages: oldPages } = book._previousDataValues
 
-        const {
-          id,
-          title,
-          author,
-          category,
-          currentChapter,
-          chapters,
-          currentPage,
-          pages
-        } = input
+        const { id, title = book._previousDataValues.title, author = oldAuthor, category = oldCategory, chapters = oldChapters, pages = oldPages} = input
 
         return await book.update(
           {
             title,
             author,
             category,
-            currentChapter,
             chapters,
-            currentPage,
             pages
           },
           { where: { id }, returning: true }

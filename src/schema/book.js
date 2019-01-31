@@ -15,15 +15,15 @@ export default gql`
 
   type Book {
     id: ID!
+    title: String!
     author: String!
     category: String!
     chapters: Int!
-    currentChapter: Int!
-    currentPage: Int!
-    createdAt: Date!
     pages: Int!
-    title: String!
+    currentChapter: Int
+    currentPage: Int
     user: User!
+    createdAt: Date!
   }
 
   type BookConnection {
@@ -49,21 +49,17 @@ export default gql`
   input createBookInput {
     title: String!
     author: String!
-    category: String!
-    currentChapter: Int!
     chapters: Int!
-    currentPage: Int!
     pages: Int!
+    category: String!
   }
 
   input editBookInput {
     id: ID!
-    title: String!
-    author: String!
-    category: String!
-    currentChapter: Int!
-    chapters: Int!
-    currentPage: Int!
-    pages: Int!
+    title: String
+    author: String
+    chapters: Int
+    pages: Int
+    category: String
   }
 `
