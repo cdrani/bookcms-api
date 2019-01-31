@@ -79,15 +79,7 @@ export default {
       isAuthenticated,
       async (
         _root,
-        {
-          input: {
-            title,
-            author,
-            category,
-            pages,
-            chapters,
-          }
-        },
+        { input: { title, author, category, pages, chapters } },
         { me, models: { Book } }
       ) =>
         await Book.create({
@@ -115,9 +107,22 @@ export default {
           where: { id: input.id }
         })
 
-        const { title: oldTitle, author: oldAuthor, category: oldCategory, chapters: oldChapters, pages: oldPages } = book._previousDataValues
+        const {
+          title: oldTitle,
+          author: oldAuthor,
+          category: oldCategory,
+          chapters: oldChapters,
+          pages: oldPages
+        } = book._previousDataValues
 
-        const { id, title = book._previousDataValues.title, author = oldAuthor, category = oldCategory, chapters = oldChapters, pages = oldPages} = input
+        const {
+          id,
+          title = oldTitle,
+          author = oldAuthor,
+          category = oldCategory,
+          chapters = oldChapters,
+          pages = oldPages
+        } = input
 
         return await book.update(
           {
@@ -126,6 +131,34 @@ export default {
             category,
             chapters,
             pages
+          },
+          { where: { id }, returning: true }
+        )
+      }
+    ),
+    updateBookMark: combineResolvers(
+      isAuthenticated,
+      isBookOwner,
+      async (_root, { input }, { models: { Book } }) => {
+        const book = await Book.findOne({
+          where: { id: input.id }
+        })
+
+        const {
+          currentPage: oldCurrentPage,
+          currentChapter: oldCurrentChapter
+        } = book._previousDataValues
+
+        const {
+          id,
+          currentChapter = oldCurrentChapter,
+          currentPage = oldCurrentPage
+        } = input
+
+        return await book.update(
+          {
+            currentChapter,
+            currentPage
           },
           { where: { id }, returning: true }
         )
