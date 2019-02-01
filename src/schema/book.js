@@ -8,10 +8,10 @@ export default gql`
   }
 
   extend type Mutation {
-    createBook(input: createBookInput!): Book!
+    createBook(input: createBookInput!): Book
     deleteBook(input: deleteBookInput!): Boolean!
-    editBook(input: editBookInput!): Book!
-    updateBookMark(input: updateBookMarkInput!): Book!
+    editBook(input: editBookInput!): Book
+    updateBookMark(input: updateBookMarkInput!): Book
   }
 
   type Book {
