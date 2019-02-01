@@ -21,7 +21,7 @@ export default {
       { secret, models: { User } }
     ) => {
       const user = await User.create({ username, email, password })
-      return { token: createToken(user, secret, '1h') }
+      return { token: createToken(user, secret, '1w') }
     },
     signIn: async (
       _root,
