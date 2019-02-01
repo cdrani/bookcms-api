@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Query {
-    books(input: booksInput): BookConnection!
+    books(input: booksInput!): BookConnection!
     book(id: ID!): Book
     myBooks(input: booksInput): BookConnection!
   }
