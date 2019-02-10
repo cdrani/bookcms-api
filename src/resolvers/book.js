@@ -23,6 +23,10 @@ export default {
 
         const bookCount = await Book.count({ where: { userId: id } })
 
+        if (bookCount === 0) {
+          return { bookCount }
+        }
+
         const books = await Book.findAll({
           order: [['createdAt', 'DESC']],
           limit: limit + 1,
