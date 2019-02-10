@@ -22,6 +22,7 @@ export default gql`
 
   type Token {
     token: String!
+    refreshToken: String!
   }
 
   input signUpInput {

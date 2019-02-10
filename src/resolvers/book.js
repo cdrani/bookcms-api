@@ -14,7 +14,7 @@ export default {
       async (
         _root,
         { input: { cursor, limit = 10 } },
-        { me: { id }, models: { User, Book } }
+        { user: { id }, models: { User, Book } }
       ) => {
         const fieldsObj = { userId: id }
         if (cursor) {
@@ -80,7 +80,7 @@ export default {
       async (
         _root,
         { input: { title, author, category, pages, chapters } },
-        { me, models: { Book } }
+        { user: { id }, models: { Book } }
       ) =>
         await Book.create({
           title,
@@ -88,7 +88,7 @@ export default {
           category,
           pages,
           chapters,
-          userId: me.id
+          userId: id
         })
     ),
 

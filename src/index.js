@@ -9,17 +9,34 @@ import models, { sequelize } from './models'
 import resolvers from './resolvers'
 import schema from './schema'
 import loaders from './loaders'
+import { refreshTokens } from './auth'
 
 const app = express()
 app.use(cors())
 
-const getMe = async req => {
+const getMe = async (req, res) => {
   const token = req.headers['token']
+  const refreshToken = req.headers['refreshtoken']
   if (token) {
     try {
       return await jwt.verify(token, process.env.SECRET)
-    } catch (e) {
-      throw new AuthenticationError('Your session expired. Sign in again.')
+    } catch (err) {
+      const refreshToken = req.headers['refreshtoken']
+      const { user, newToken, newRefreshToken } = await refreshTokens(
+        models.User,
+        token,
+        refreshToken,
+        process.env.SECRET,
+        process.env.REFRESHSECRET
+      )
+
+      if (newToken && newRefreshToken) {
+        res.set('access-control-allow-headers', 'token', 'refreshtoken')
+        res.set('token', newToken)
+        res.set('refreshtoken', newRefreshToken)
+      }
+
+      return user
     }
   }
 }
@@ -41,12 +58,13 @@ const server = new ApolloServer({
       message
     }
   },
-  context: async ({ req }) => {
-    const me = await getMe(req)
+  context: async ({ req, res }) => {
+    const user = await getMe(req, res)
     return {
       models,
-      me,
+      user,
       secret: process.env.SECRET,
+      refreshSecret: process.env.REFRESHSECRET,
       loaders: {
         user: new DataLoader(keys => loaders.user.batchUsers(keys, models))
       }
