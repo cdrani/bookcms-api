@@ -9,7 +9,7 @@ export const isBookOwner = async (
   { input: { id } },
   { user, models: { Book } }
 ) => {
-  const book = await Book.findById(id, { raw: true })
+  const book = await Book.findByPk(id, { raw: true })
   if (book.userId !== user.id) {
     throw new ForbiddenError('Not authenticated as owner.')
   }

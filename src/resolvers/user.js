@@ -7,9 +7,9 @@ export default {
   Query: {
     users: async (_root, _args, { models: { User } }) => await User.findAll(),
     user: async (_root, { id }, { models: { User } }) =>
-      await User.findById(id),
+      await User.findByPk(id),
     me: async (_root, _args, { user: { id }, models: { User } }) =>
-      await User.findById(id)
+      await User.findByPk(id)
   },
   Mutation: {
     signUp: async (

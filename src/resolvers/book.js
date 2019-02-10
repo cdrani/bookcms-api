@@ -71,7 +71,7 @@ export default {
         bookCount
       }
     },
-    book: async (_root, { id }, { models: { Book } }) => await Book.findById(id)
+    book: async (_root, { id }, { models: { Book } }) => await Book.findByPk(id)
   },
 
   Mutation: {
