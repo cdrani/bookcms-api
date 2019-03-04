@@ -5,7 +5,7 @@ Live: [bookcms-api](https://bookcms-api.herokuapp.com)
 Users can sign up/in/out, add, delete, view, and edit books from the library 
 as well as keep track of their current progress of through their books.
 
-All of the above can be performed independent of the [frontend ui](https://github.com/cdrainxv/book-cms).
+All of the above can be performed independent of the [frontend ui](https://github.com/cdrani/book-cms).
 
 ## Getting Started
 
@@ -45,8 +45,3 @@ You can deploy the project on [Heroku](https://www.heroku.com/) using the follow
 2. On the terminal, run `heroku create` to create a new app
 3. Run `git push heroku master` to start a deployment on Heroku.
 4. Visit your project URL as assigned by Heroku (`heroku open`) to see a live deployment of the app.
-
-
-## Authors
-
-*****Charles Drani** - [cdrainxv](https://github.com/cdrainxv)
